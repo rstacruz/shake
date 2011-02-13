@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require 'shake'
+
+## Shake
+# Shake is a very simple Thor/Rake replacement. It intends
+# to replicate thor's basic functionality in <100loc.
+#
+# This is a very simple example.
+#
+Shake.task(:hello) {
+  puts "hi!"
+}
+
+Shake.run!
+
+# Example output:
+#
+#    $ ./example
+#    Usage: example <command>
+#    
+#    Commands:
+#      help
+#      hello
+#    
+#    $ ./example hello
+#    hi!
+#    
+#    $ ./example aaaa
+#    Unknown command: aaaa
+#    See `example help` for a list of commands.

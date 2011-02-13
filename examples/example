@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+require 'shake'
+
+## Example
+# This is a very simple example of using Shake with a subclass.
+
+class Monk < Shake
+  # Include the Shake default commands (like `help` and stuff)
+  # This is optional, but you probably want this for most cases.
+  include Defaults
+
+  # Define a task like this.
+  # The other command line options will be accesible as the
+  # `params` array. Pass it onto Clap or something.
+  task(:start) {
+    puts "Running..."
+    puts "Your options: #{params.inspect}"
+  }
+
+  # Just `task` will return the last defined task.
+  # By the way, only `help` cares about the description (skip
+  # it if you wish), and you can add as much metadata to the
+  # tasks as you need.
+  task.description = "Starts the server"
+
+  # You may also define task metadata like this.
+  # Note that there are no namespaces, but feel free to use
+  # the colon anyway.
+  task(:'redis:start', :description => "Runs redis") {
+    puts "Starting redis..."
+  }
+
+  # Or this way:
+  task(:stop) {
+    puts "Stopping..."
+  }
+
+  task(:stop).description = "Stops the server"
+end
+
+# This gets ARGV and dispatches the appropriate task
+Monk.run!
+
+# Example output:
+#
+#    $ ./monk
+#    Usage: monk <command>
+#    
+#    Commands:
+#      help           Shows a list of commands
+#      start          Starts the server
+#      redis:start    Runs redis
+#      stop           Stops the server
+#    
+#    $ ./monk start production
+#    Running...
+#    Your options: ['production']
+#    
+#    $ ./monk aaaa
+#    Unknown command: aaaa
+#    See `monk help` for a list of commands.
