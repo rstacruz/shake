@@ -82,6 +82,10 @@ Use `err` to print something to STDERR. Use `pass` to halt execution.
       FileUtils.rm_rf params.first
     end
 
+You may also pass parameters to `pass` to have it printed out before halting.
+
+    pass 'The target already exists.'  if File.exists?(target)
+
 ### Default tasks
 
 Use `default` to specify a default task. (The default task is usually `help`)

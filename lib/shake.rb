@@ -83,7 +83,8 @@ class Shake
     end
 
     # Stops the execution of a task.
-    def pass(*a)
+    def pass(msg=nil)
+      err msg  unless msg.nil?
       raise Abort
     end
 
@@ -94,7 +95,7 @@ class Shake
     #   wrong_usage  if params.any?
     #
     def wrong_usage
-      pass invoke(invalid)
+      invoke(invalid) and pass
     end
 
     # Runs with the given arguments and dispatches the appropriate task.
