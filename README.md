@@ -5,7 +5,11 @@ Simple command runner.
 
 Shake intends to replicate Thor/Rake's basic functionality in one very small package.
 
-Why you ask? Usually because Rake doesn`t support arguments, and Thor can be too huge for your purposes.
+Why you ask? Usually because Rake doesn't support arguments, and Thor can be
+too huge for your purposes.
+
+Shake was made with the idea of being easily-embeddable into your projects
+for your command line runners. It's a single ~4kb Ruby file.
 
     # Shakefile
     # Place this file in your project somewhere
@@ -58,22 +62,33 @@ And in your shell:
     $ shake deploy
     Deploying...
 
-### Common commands
+### Parameters
 
 Get the parameters with `params` (an array). Verify parameters with `wrong_usage`.
 
-    Shake.task(:init) do
+    task(:init) do
       wrong_usage  if params.empty?
       system "wget #{params.first}"
     end
+
+Example:
 
     $ shake init
     Invalid usage.
     See `shake help` for more information.
 
+You may use [Clap](http://github.com/soveran/clap) to parse the parameters list.
+
+    task(:create) do
+      file = Clap.run params,
+        '-s' => lambda { ... }
+    end
+
+# Common commands
+
 Use `err` to print something to STDERR. Use `pass` to halt execution.
 
-    Shake.task(:delete) do
+    task(:delete) do
       unless File.exists?(params.first)
         err 'You can't delete something that doesn't exist!'
         pass
