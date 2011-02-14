@@ -77,6 +77,8 @@ Example:
     Invalid usage.
     See `shake help` for more information.
 
+### Parameter options and flags
+
 You may get params from it with `params.extract` or `params.delete`. Doing `extract`
 will remove it from params.
 
@@ -89,10 +91,12 @@ will remove it from params.
       puts "Creating '#{file}' (quiet: #{quiet}, type: #{type})"
     end
 
-    # shake create                 #=> Invalid
-    # shake create foobar          #=> Creating 'foobar' (quiet: false, type: default)
-    # shake create foobar -q       #=> Creating 'foobar' (quiet: true, type: default)
-    # shake create foobar -t xyz   #=> Creating 'foobar' (quiet: false, type: xyz)
+Example:
+
+    $ shake create                 #=> Invalid
+    $ shake create foobar          #=> Creating 'foobar' (quiet: false, type: default)
+    $ shake create foobar -q       #=> Creating 'foobar' (quiet: true, type: default)
+    $ shake create foobar -t xyz   #=> Creating 'foobar' (quiet: false, type: xyz)
 
 # Common commands
 
