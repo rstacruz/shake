@@ -96,14 +96,20 @@ Use `default` to specify a default task. (The default task is usually `help`)
 
     # Typing `shake` will be the same as `shake test`
 
-Use `invalid`
+### Invalid commands
 
-    Shake.invalid {
-      err "Invalid command. What's wrong with you?"
-    }
+Use `invalid` to define what happens when
 
-    # $ shake foobar
-    # Invalid command. What's wrong with you?
+    class Shake
+      invalid {
+        err "Invalid command. What's wrong with you?"
+      }
+    end
+
+In your shell:
+
+    $ shake foobar
+    Invalid command. What's wrong with you?
 
 ### Defining helpers
 
@@ -141,10 +147,15 @@ You can use shake in your projects without using the `shake` command. (recommend
 
 ### Subclassing Shake
 
+You may subclass shake for your own project.
+
+By default, it will not have any of the default tasks (that is, `shake help`, and
+the "invalid command" message). Use `include Defaults` if you want this behavior.
+
     require 'shake'
 
     class CLI < Shake
-      include Defaults
+      include Defaults  # optional, see above
 
       task(:flip) do
         what = rand < 0.5 ? "heads" : "tails"
