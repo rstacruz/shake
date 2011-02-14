@@ -3,6 +3,10 @@ Shake
 
 Simple command runner.
 
+Shake intends to replicate Thor/Rake's basic functionality in one very small package.
+
+Why you ask? Usually because Rake doesn`t support arguments, and Thor can be too huge for your purposes.
+
     # Shakefile
     # Place this file in your project somewhere
     Shake.task(:start) {
@@ -18,7 +22,8 @@ Simple command runner.
     Shake.task.description = "Stops it"
 
 
-    # In your shell:
+In your shell:
+
     $ shake start server
     Starting 'server'...
 
@@ -39,18 +44,90 @@ Usage
 Using the command `shake` will load your project's `Shakefile`.
 
     # ~/project/Shakefile
-    Shake.task(:deploy) do
-      puts "Deploying..."
-      system "ssh admin@server.com git pull && thin restart"
+    class Shake
+      task(:deploy) do
+        puts "Deploying..."
+        system "ssh admin@server.com git pull && thin restart"
+      end
     end
+
+And in your shell:
 
     $ cd ~/project
     $ shake deploy
     Deploying...
 
+### Common commands
+
+Get the parameters with `params` (an array). Verify parameters with `wrong_usage`.
+
+    Shake.task(:init) do
+      wrong_usage  if params.empty?
+      system "wget #{params.first}"
+    end
+
+    $ shake init
+    Invalid usage.
+    See `shake help` for more information.
+
+Use `err` to print something to STDERR. Use `pass` to halt execution.
+
+    Shake.task(:delete) do
+      unless File.exists?(params.first)
+        err 'You can't delete something that doesn't exist!'
+        pass
+      end
+
+      FileUtils.rm_rf params.first
+    end
+
+### Default tasks
+
+Use `default` to specify a default task. (The default task is usually `help`)
+
+    class Shake
+      task(:test) do
+        Dir['test/**/*_test.rb'].each { |f| load f }
+      end
+
+      default :test
+    end
+
+    # Typing `shake` will be the same as `shake test`
+
+Use `invalid`
+
+    Shake.invalid {
+      err "Invalid command. What's wrong with you?"
+    }
+
+    # $ shake foobar
+    # Invalid command. What's wrong with you?
+
+### Defining helpers
+
+Tasks are executed in the class's context, so just define your helpers like so:
+
+    module Helpers
+      def say_status(what, str)
+        puts "%15s %s" % [ what, str ]
+      end
+    end
+
+    class Shake
+      extend Helpers
+    end
+
+Then use them in your tasks.
+
+    class Shake
+      task(:info) do
+        say_status :info, "It's a fine day"
+      end
+
 ### Manual invocation
 
-You can use shake in your projects without using the `shake` command. (recommended)
+You can use shake in your projects without using the `shake` command. (recommended!)
 
     require 'shake'
 
