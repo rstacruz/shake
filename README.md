@@ -1,12 +1,20 @@
 Shake
 =====
 
-Simple command runner.
+**Simple command runner.**
 
-Shake intends to replicate Thor/Rake's basic functionality in one very small package.
+Goals:
 
-Why you ask? Usually because Rake doesn't support arguments, and Thor can be
-too huge for your purposes.
+ * Shake lets you create extendable CLI runners very easily.
+
+ * Shake intends to replicate Thor/Rake's basic functionality in one very small package.
+
+Why not Rake or Thor?
+
+ * Shake starts up way faster than Thor and Rake.
+ * Rake doesn't support arguments.
+ * Rake can't be extended easily to support anything more than `rake` + `Rakefile`.
+ * Thor can be too huge for your purposes.
 
 Shake was made with the idea of being easily-embeddable into your projects
 for your command line runners. It's a single ~4kb Ruby file.
