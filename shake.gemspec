@@ -6,5 +6,5 @@ Gem::Specification.new do |s|
   s.authors = ["Rico Sta. Cruz"]
   s.email = ["rico@sinefunc.com"]
   s.homepage = "http://github.com/rstacruz/shake"
-  s.files = ["lib/shake.rb", "examples/example", "examples/example2", "README"]
+  s.files = ["lib/shake.rb", "examples/example", "examples/example2", "README.md"]
 end

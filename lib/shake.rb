@@ -3,6 +3,8 @@ require 'ostruct'
 class Shake
   VERSION = "0.0.1"
 
+  Abort = Class.new(StandardError)
+
   class << self
     attr_reader :params
     attr_reader :command
@@ -65,16 +67,34 @@ class Shake
     #
     def invoke(what, *args)
       old, @params = @params, args
+      return  if what.nil?
 
       begin
         return instance_eval(&what)  if what.is_a?(Proc)
 
-        task  = task(what)  or return nil
+        task = task(what)  or return nil
         instance_eval &task.proc
+        true
+      rescue Abort
         true
       ensure
         @params = old
       end
+    end
+
+    # Stops the execution of a task.
+    def pass(*a)
+      raise Abort
+    end
+
+    # Halts a task because of wrong usage.
+    #
+    # Example:
+    #
+    #   wrong_usage  if params.any?
+    #
+    def wrong_usage
+      pass invoke(invalid)
     end
 
     # Runs with the given arguments and dispatches the appropriate task.
@@ -89,7 +109,7 @@ class Shake
       return invoke(default)  if argv.empty?
 
       @command = argv.shift
-      invoke(@command, *argv) or invoke(invalid)
+      invoke(@command, *argv) or invoke(invalid, *argv)
     end
 
     def run!
@@ -143,11 +163,17 @@ class Shake
       to.task(:help).description = "Shows a list of commands"
 
       to.invalid {
-        err "Unknown command: #{command}"
-        err "See `#{executable} help` for a list of commands."
+        if task(command)
+          err "Invalid usage."
+          err "See `#{executable} help` for more info."
+        else
+          err "Unknown command: #{command}"
+          err "See `#{executable} help` for a list of commands."
+        end
       }
     end
   end
 
   include Defaults
 end
+
