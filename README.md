@@ -9,18 +9,19 @@ Why you ask? Usually because Rake doesn`t support arguments, and Thor can be too
 
     # Shakefile
     # Place this file in your project somewhere
-    Shake.task(:start) {
+    class Shake
+      task(:start) {
         puts "Starting '#{params.join(' ')}'..."
-    }
+      }
 
-    Shake.task.description = "Starts something"
+      task.description = "Starts something"
 
-    Shake.task(:stop) {
+      task(:stop) {
         puts "Stopping..."
-    }
+      }
 
-    Shake.task.description = "Stops it"
-
+      task.description = "Stops it"
+    end
 
 In your shell:
 
@@ -124,6 +125,7 @@ Then use them in your tasks.
       task(:info) do
         say_status :info, "It's a fine day"
       end
+    end
 
 ### Manual invocation
 
