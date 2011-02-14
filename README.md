@@ -77,12 +77,22 @@ Example:
     Invalid usage.
     See `shake help` for more information.
 
-You may use [Clap](http://github.com/soveran/clap) to parse the parameters list.
+You may get params from it with `params.extract` or `params.delete`. Doing `extract`
+will remove it from params.
 
     task(:create) do
-      file = Clap.run params,
-        '-s' => lambda { ... }
+      type  = params.extract('-t') || 'default'
+      quiet = !! params.delete('-q')
+      file  = params.shift
+      wrong_usage  if params.any?
+
+      puts "Creating '#{file}' (quiet: #{quiet}, type: #{type})"
     end
+
+    # shake create                 #=> Invalid
+    # shake create foobar          #=> Creating 'foobar' (quiet: false, type: default)
+    # shake create foobar -q       #=> Creating 'foobar' (quiet: true, type: default)
+    # shake create foobar -t xyz   #=> Creating 'foobar' (quiet: false, type: xyz)
 
 # Common commands
 

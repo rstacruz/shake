@@ -66,7 +66,7 @@ class Shake
     #    invoke(:start, 'nginx', 'memcache')
     #
     def invoke(what, *args)
-      old, @params = @params, args
+      old, @params = @params, args.extend(Params)
       return  if what.nil?
 
       begin
@@ -144,6 +144,12 @@ class Shake
       t = OpenStruct.new(options)
       t.proc = blk
       t
+    end
+  end
+
+  module Params
+    def extract(what)
+      i = index(what) and slice!(i, 2).last
     end
   end
 
