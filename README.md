@@ -92,11 +92,11 @@ will remove it from params.
 
     task(:create) do
       type  = params.extract('-t') || 'default'
-      quiet = !! params.delete('-q')
+      quiet = params.delete('-q')
       file  = params.shift
       wrong_usage  if params.any?
 
-      puts "Creating '#{file}' (quiet: #{quiet}, type: #{type})"
+      puts "Creating '#{file}' (quiet: #{!!quiet}, type: #{type})"
     end
 
 Example:
