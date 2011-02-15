@@ -7,4 +7,5 @@ Gem::Specification.new do |s|
   s.email = ["rico@sinefunc.com"]
   s.homepage = "http://github.com/rstacruz/shake"
   s.files = ["lib/shake.rb", "test/mock.rb", "test/test_helper.rb", "test/unit", "test/unit/params_test.rb", "test/unit/shakefile_test.rb", "test/unit/subclass_test.rb", "test/unit/traverse_test.rb", "examples/example", "examples/example2", "README.md", "Rakefile"]
+  s.executables.push("shake")
 end
