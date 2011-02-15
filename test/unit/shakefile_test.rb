@@ -1,6 +1,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
-class ShakeTest < Test::Unit::TestCase
+class ShakefileTest < Test::Unit::TestCase
   test 'no shakefile' do
     shake
     assert cout.empty?

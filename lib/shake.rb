@@ -149,7 +149,7 @@ class Shake
 
   module Params
     def extract(what)
-      i = index(what) and slice!(i, 2).last
+      i = index(what) and slice!(i, 2)[1]
     end
   end
 
