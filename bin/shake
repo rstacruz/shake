@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'shake'))
+$: << File.expand_path('../../lib', __FILE__)
+require 'shake'
 
 file = Shake.find_in_project("Shakefile")
 
 unless file
-  $stderr.write "No Shakefile found in your path.\n"
-  exit
+  Shake.err "No Shakefile found in your path."
+else
+  load file
+  Shake.run!
 end
-
-load file
-Shake.run!
