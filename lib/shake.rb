@@ -35,7 +35,7 @@ class Shake
     def task(what=nil, options={}, &blk)
       return @last  if what.nil?
 
-      key = what.downcase.to_sym
+      key = what.to_s.downcase.to_sym
       @last = tasks[key] = new_task(options, &blk)  if block_given?
       tasks[key]
     end
