@@ -1,7 +1,7 @@
 require 'ostruct'
 
 class Shake
-  VERSION = "0.1.1"
+  VERSION = "0.1.2"
 
   Abort = Class.new(StandardError)
 
