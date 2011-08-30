@@ -6,4 +6,8 @@ class Shake
   def self.err(str='')
     $err << "#{str}\n"
   end
+
+  def self.executable
+    "shake"
+  end
 end

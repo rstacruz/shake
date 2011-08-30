@@ -164,14 +164,16 @@ class Shake
         err "Usage: #{executable} <command>"
         err
         err "Commands:"
-        tasks.each { |name, task| err "  %-20s %s" % [ name, task.description ] }
+        tasks.each { |name, task| err "  %-20s %s" % [ task.usage || name, task.description ] }
       }
 
       to.task(:help).description = "Shows a list of commands"
 
       to.invalid {
         if task(command)
+          usage = task(command).usage
           err "Invalid usage."
+          err "Usage: `#{executable} #{usage}`\n"  if usage
           err "See `#{executable} help` for more info."
         else
           err "Unknown command: #{command}"
