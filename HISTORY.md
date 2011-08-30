@@ -1,3 +1,8 @@
+v0.1.3 - Aug 31, 2011
+---------------------
+
+ * Allow adding usage notes to tasks.
+
 v0.1.2
 ------
 
